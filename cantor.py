@@ -2,6 +2,7 @@ import re
 import requests
 import xml.etree.ElementTree as ET
 import tkinter as tk
+from myModule import isEmpty, isNegative
 from tkinter import ttk
 
 
@@ -95,6 +96,12 @@ def btnSell(name):
     menuButtonSell.configure(text = name)
     cantor.set(name)
     updateCantorDisplay()
+    if isEmpty(entry_var.get()):
+        buyValue.configure(text = "")
+        return
+    if isNegative(entry_var.get()):
+        buyValue.configure(text = "Wpisz wartość dodatnią")
+        return
     if name == user1.currencyBuy:
         exchangeValue = entry_var.get()
         buyValue.configure(text = exchangeValue)
@@ -106,6 +113,12 @@ def btnSell(name):
 def btnBuy(name):
     menuButtonBuy.configure(text = name)
     user1.currencyBuy = name
+    if isEmpty(entry_var.get()):
+        buyValue.configure(text = "")
+        return
+    if isNegative(entry_var.get()):
+        buyValue.configure(text = "Wpisz wartość dodatnią")
+        return
     if name == user1.currency:
         exchangeValue = entry_var.get()
         buyValue.configure(text = exchangeValue)
@@ -115,6 +128,12 @@ def btnBuy(name):
 
 
 def on_entry_change(var, index, mode):
+    if isEmpty(entry_var.get()):
+        buyValue.configure(text = "")
+        return
+    if isNegative(entry_var.get()):
+        buyValue.configure(text = "Wpisz wartość dodatnią")
+        return
     exchangeValue = float(entry_var.get()) / currentRate[user1.currencyBuy]
     buyValue.configure(text = exchangeValue)
 user1 = user(0, "EUR", "EUR")
