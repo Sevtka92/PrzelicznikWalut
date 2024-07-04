@@ -140,43 +140,54 @@ user1 = user(0, "EUR", "EUR")
 cantor = bank()
 
 
-
+# Główne okno aplikacj oraz podana jej rozdzielczość
 window = tk.Tk()
 window.title("Kantor")
 window.geometry("450x300")
+
+# Utworzone na głównym oknie dwie podtablice. Lewa dla tabeli z kursami walut. Prawe dla menu użytkownika
 window.columnconfigure(0, weight = 66)
 window.columnconfigure(1, weight = 34)
 
+# Podtablica  (ramka) dla tablicy z kursami walut
 exchangeDisplay = tk.Frame(master = window)
 exchangeDisplay.grid(row = 0, column = 0)
 
+# Podtablica (ramka) dla menu użytkownika
 userMenu = tk.Frame(master = window)
 userMenu.grid(row = 0, column = 1)
 
+# Wyświetlenie przycisku z rozwijaną listą walut do sprzedaży
 menuButtonSell = ttk.Menubutton(master = userMenu, text = "PLN", direction='left')
 menuButtonSell.grid(row = 0, column = 0, sticky = 'E')
 
 menuButtonSell_sub_menu = tk.Menu(menuButtonSell, tearoff = False)
 
+# Iteracja po kolejnych walutach w spisie walut i przypisanie ich na rozwijanej liście na przycisku sprzedaży
 for currency in currenciesList:
     menuButtonSell_sub_menu.add_command(label = currency, command = lambda currency = currency: btnSell(currency))
 menuButtonSell.configure(menu = menuButtonSell_sub_menu)
 
+# Wyświetlenie przycisku z rozwijaną listą walut do kupna
 menuButtonBuy = ttk.Menubutton(master = userMenu, text = "EUR", direction='left')
 menuButtonBuy.grid(row = 1, column = 0, sticky = 'E')
 
 menuButtonBuy_sub_menu = tk.Menu(menuButtonBuy, tearoff = False)
 
+# Iteracja po kolejnych walutach w spisie walut i przypisanie ich na rozwijanej liście na przycisku kupna
 for currency in currenciesList:
     menuButtonBuy_sub_menu.add_command(label = currency, command = lambda currency = currency: btnBuy(currency))
 menuButtonBuy.configure(menu = menuButtonBuy_sub_menu)
 
+# Pole wyświetlające obliczoną wartość kupna
 buyValue = tk.Label(master = userMenu, text = "0")
 buyValue.grid(row = 1, column = 1, sticky = 'W')
 
+# Funkcja tkinter która sprawdza zmiany we wpisywanym polu i na bieżąco je kalkuluje przechodząć do funkcji on_entru_change
 entry_var = tk.StringVar()
 entry_var.trace_add("write", on_entry_change)
 
+# Pole do wpisywania wartości sprzedaży
 entryValue = tk.Entry(master = userMenu, textvariable = entry_var)
 entryValue.grid(row = 0, column = 1, sticky = 'W')
 
